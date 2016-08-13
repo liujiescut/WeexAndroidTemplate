@@ -1,0 +1,16 @@
+include ':app', ':signcheck-release'
+
+//include ":weex_sdk"
+//project(":weex_sdk").projectDir=new File("../sdk")
+
+/** don' t delete or edit it, it will be used while packaging */
+/** release delete head */
+include ":inspector"
+project(":inspector").projectDir=new File("../inspector")
+/** release delete tail */
+
+include ":commons"
+project(":commons").projectDir=new File("../commons")
+
+//include ":weex_debug"
+//project(":weex_debug").projectDir=new File("../weex_debug")
