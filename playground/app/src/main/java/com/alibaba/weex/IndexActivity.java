@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.LocalBroadcastManager;
@@ -22,6 +23,7 @@ import android.widget.Toast;
 
 import com.alibaba.weex.commons.AbstractWeexActivity;
 import com.alibaba.weex.constants.Constants;
+import com.google.zxing.client.android.CaptureActivity;
 import com.taobao.weex.WXRenderErrorCode;
 import com.taobao.weex.WXSDKEngine;
 import com.taobao.weex.WXSDKInstance;
@@ -31,10 +33,16 @@ import com.taobao.weex.utils.WXSoInstallMgrSdk;
 /**
  * don' t delete or edit it, it will be used while packaging  release delete head  release delete tail
  * release delete head
+ * release delete head
+ * release delete head
+ * release delete head
+ * release delete head
  */
 /** release delete head */
-import com.google.zxing.client.android.CaptureActivity;
-/** release delete tail */
+
+/**
+ * release delete tail
+ */
 
 public class IndexActivity extends AbstractWeexActivity {
 
@@ -81,12 +89,22 @@ public class IndexActivity extends AbstractWeexActivity {
         };
 
         LocalBroadcastManager.getInstance(this).registerReceiver(mReloadReceiver, new IntentFilter(WXSDKEngine.JS_FRAMEWORK_RELOAD));
+
+        if (!BuildConfig.DEBUG) {
+
+            //Release版本隐藏Debug版本中的TitleBar
+            View titleBar = findViewById(R.id.index_title_bar);
+            CoordinatorLayout.LayoutParams params = (CoordinatorLayout.LayoutParams) titleBar.getLayoutParams();
+            params.height = 0;
+            titleBar.setLayoutParams(params);
+        }
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main, menu);
-        return true;
+
+        return BuildConfig.DEBUG;
     }
 
     @Override
