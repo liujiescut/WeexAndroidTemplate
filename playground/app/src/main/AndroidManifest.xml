@@ -29,14 +29,12 @@
         tools:overrideLibrary="com.taobao.android.dexposed">
         <uses-library android:name="android.test.runner" />
 
-        <!-- Debug server ip head -->
-        <!-- Debug server ip tail -->
+        <!-- Debug server ip -->
         <meta-data
             android:name="debug_host"
             android:value="ip" />
 
         <!-- Weex index(JS Bundle in asserts(like index.js) or url of JS Bundle on server(like http:***)) -->
-        <!-- Weex index tail -->
         <meta-data
             android:name="weex_index"
             android:value="index.js" />

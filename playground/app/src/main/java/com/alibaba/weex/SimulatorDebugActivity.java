@@ -15,6 +15,9 @@ import com.taobao.weex.WXSDKEngine;
 
 import java.util.Locale;
 
+/**
+ * 模拟器debug页面
+ */
 public class SimulatorDebugActivity extends AppCompatActivity {
     private ImageView mBackImageView;
     private EditText mDebugHostEditText;
