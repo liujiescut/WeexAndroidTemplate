@@ -22,6 +22,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.alibaba.weex.commons.AbstractWeexActivity;
+import com.alibaba.weex.commons.util.OtherUtil;
 import com.alibaba.weex.constants.Constants;
 import com.google.zxing.client.android.CaptureActivity;
 import com.taobao.weex.WXRenderErrorCode;
@@ -120,6 +121,11 @@ public class IndexActivity extends AbstractWeexActivity {
                 return true;
             }
         } else if (id == R.id.action_scan) {
+            if(OtherUtil.isEmulator(this)){
+                startActivity(new Intent(this, SimulatorDebugActivity.class));
+                return true;
+            }
+
             if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
                 if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.CAMERA)) {
                     Toast.makeText(this, "please give me the permission", Toast.LENGTH_SHORT).show();

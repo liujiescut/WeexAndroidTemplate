@@ -3,16 +3,16 @@ apply plugin: 'com.android.application'
 android {
     compileSdkVersion 23
     buildToolsVersion "23.0.2"
-
-    applicationVariants.all { variant ->
-        variant.outputs.each { output ->
-            def outputFile = output.outputFile
-            if (outputFile != null && outputFile.name.equals('app-debug.apk')) {
-                def fileName = outputFile.name.replace("app-debug.apk", "playground.apk")
-                output.outputFile = new File(outputFile.parent, fileName)
-            }
-        }
-    }
+//
+//    applicationVariants.all { variant ->
+//        variant.outputs.each { output ->
+//            def outputFile = output.outputFile
+//            if (outputFile != null && outputFile.name.equals('app-debug.apk')) {
+//                def fileName = outputFile.name.replace("app-debug.apk", "playground.apk")
+//                output.outputFile = new File(outputFile.parent, fileName)
+//            }
+//        }
+//    }
     signingConfigs {
         release {
             storeFile file("easyfe_release.jks")

@@ -102,7 +102,7 @@
             android:name="com.google.zxing.client.android.history.HistoryActivity"
             android:label="@string/history_title"
             android:stateNotNeeded="true" />
-        <activity android:name=".SimulatorActivity"></activity>
+        <activity android:name=".SimulatorDebugActivity"></activity>
     </application>
 
 </manifest>
