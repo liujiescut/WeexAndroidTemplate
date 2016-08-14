@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">WEEX</string>
+    <string name="app_name">WEEX1</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
@@ -16,4 +16,6 @@
     <string name="cpu_not_support_tip">Sorry, your current device is x86 architecture.\n We only support arm architecture devices!</string>
 
     <string name="index_tip">Network Error!\n1.Make sure you use the command "npm run serve" launched local service\n2.Make sure you modify "your_current_ip" to your local IP in "WXMainActivity" </string>
+    <string name="preferences_history_summary">History</string>
+    <string name="preferences_history_title">History</string>
 </resources>

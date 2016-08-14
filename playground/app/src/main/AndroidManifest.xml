@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    package="com.alibaba.weex"
     android:versionCode="1"
-    android:versionName="1.0.0"
-    package="com.alibaba.weex">
+    android:versionName="1.0.0">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -31,11 +31,15 @@
 
         <!-- Debug server ip head -->
         <!-- Debug server ip tail -->
-        <meta-data android:name="debug_host" android:value="ip"/>
+        <meta-data
+            android:name="debug_host"
+            android:value="ip" />
 
         <!-- Weex index(JS Bundle in asserts(like index.js) or url of JS Bundle on server(like http:***)) -->
         <!-- Weex index tail -->
-        <meta-data android:name="weex_index" android:value="index.js" />
+        <meta-data
+            android:name="weex_index"
+            android:value="index.js" />
 
         <activity
             android:name=".SplashActivity"
@@ -49,13 +53,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".IndexActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
-            android:theme="@style/AppTheme.NoActionBar"/>
-
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".WXPageActivity"
             android:label="@string/app_name"
@@ -72,7 +74,6 @@
                 <data android:scheme="file" />
             </intent-filter>
         </activity>
-
         <activity
             android:name="com.google.zxing.client.android.CaptureActivity"
             android:clearTaskOnLaunch="true"
@@ -82,6 +83,7 @@
             android:windowSoftInputMode="stateAlwaysHidden">
             <intent-filter>
                 <action android:name="com.google.zxing.client.android.SCAN" />
+
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
             <intent-filter>
@@ -96,11 +98,11 @@
                     android:scheme="http" />
             </intent-filter>
         </activity>
-
         <activity
             android:name="com.google.zxing.client.android.history.HistoryActivity"
             android:label="@string/history_title"
             android:stateNotNeeded="true" />
+        <activity android:name=".SimulatorActivity"></activity>
     </application>
 
 </manifest>
