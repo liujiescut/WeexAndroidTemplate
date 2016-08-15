@@ -31,7 +31,7 @@ public class Constants {
                 WEEX_INDEX = weexIndex;
 
             } else {
-                WEEX_INDEX = String.format("file://assets/%s", weexIndex);
+                WEEX_INDEX = String.format("file://assets/JSBundle/%s", weexIndex);
             }
         }
     }
