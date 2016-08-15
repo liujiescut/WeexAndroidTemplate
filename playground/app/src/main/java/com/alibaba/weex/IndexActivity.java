@@ -7,8 +7,6 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.support.design.widget.AppBarLayout;
-import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.LocalBroadcastManager;
@@ -25,6 +23,7 @@ import android.widget.Toast;
 
 import com.alibaba.weex.commons.AbstractWeexActivity;
 import com.alibaba.weex.commons.util.OtherUtil;
+import com.alibaba.weex.commons.util.ScreenUtil;
 import com.alibaba.weex.constants.Constants;
 import com.google.zxing.client.android.CaptureActivity;
 import com.taobao.weex.WXRenderErrorCode;
@@ -56,6 +55,7 @@ public class IndexActivity extends AbstractWeexActivity {
     private TextView mTipView;
 
     private BroadcastReceiver mReloadReceiver;
+    private int mToolBarHeight = 0;
 
 
     @Override
@@ -100,6 +100,7 @@ public class IndexActivity extends AbstractWeexActivity {
             titlebarParam.height = 0;
             toolbar.setLayoutParams(titlebarParam);
         }
+        mToolBarHeight = titlebarParam.height;
     }
 
     @Override
@@ -193,7 +194,7 @@ public class IndexActivity extends AbstractWeexActivity {
         }
 
         mInstance.renderByUrl("weex", Constants.WeexIndex.getWeexIndex()
-                , null, null, -1, -1, WXRenderStrategy.APPEND_ASYNC);
+                , null, null, -1, ScreenUtil.getDisplayHeight(this) - mToolBarHeight, WXRenderStrategy.APPEND_ASYNC);
     }
 }
 
