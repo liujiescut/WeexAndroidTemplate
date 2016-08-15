@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -18,6 +19,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -93,16 +95,10 @@ public class IndexActivity extends AbstractWeexActivity {
         LocalBroadcastManager.getInstance(this).registerReceiver(mReloadReceiver, new IntentFilter(WXSDKEngine.JS_FRAMEWORK_RELOAD));
 
         //Release版本隐藏Debug版本中的TitleBar
-        View titleBar = findViewById(R.id.index_title_bar);
-        CoordinatorLayout.LayoutParams titlebarParam = (CoordinatorLayout.LayoutParams) titleBar.getLayoutParams();
+        RelativeLayout.LayoutParams titlebarParam = (RelativeLayout.LayoutParams) toolbar.getLayoutParams();
         if (!BuildConfig.DEBUG) {
             titlebarParam.height = 0;
-            titleBar.setLayoutParams(titlebarParam);
-        } else {
-            View container = findViewById(R.id.index_view_container);
-            CoordinatorLayout.LayoutParams containerParams = (CoordinatorLayout.LayoutParams) container.getLayoutParams();
-            containerParams.height -= titlebarParam.height;
-            container.setLayoutParams(containerParams);
+            toolbar.setLayoutParams(titlebarParam);
         }
     }
 
