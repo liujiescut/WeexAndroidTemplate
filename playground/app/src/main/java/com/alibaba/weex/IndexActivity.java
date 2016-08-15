@@ -38,6 +38,7 @@ import com.taobao.weex.utils.WXSoInstallMgrSdk;
  * release delete head
  * release delete head
  * release delete head
+ * release delete head
  */
 /** release delete head */
 
@@ -91,13 +92,17 @@ public class IndexActivity extends AbstractWeexActivity {
 
         LocalBroadcastManager.getInstance(this).registerReceiver(mReloadReceiver, new IntentFilter(WXSDKEngine.JS_FRAMEWORK_RELOAD));
 
+        //Release版本隐藏Debug版本中的TitleBar
+        View titleBar = findViewById(R.id.index_title_bar);
+        CoordinatorLayout.LayoutParams titlebarParam = (CoordinatorLayout.LayoutParams) titleBar.getLayoutParams();
         if (!BuildConfig.DEBUG) {
-
-            //Release版本隐藏Debug版本中的TitleBar
-            View titleBar = findViewById(R.id.index_title_bar);
-            CoordinatorLayout.LayoutParams params = (CoordinatorLayout.LayoutParams) titleBar.getLayoutParams();
-            params.height = 0;
-            titleBar.setLayoutParams(params);
+            titlebarParam.height = 0;
+            titleBar.setLayoutParams(titlebarParam);
+        } else {
+            View container = findViewById(R.id.index_view_container);
+            CoordinatorLayout.LayoutParams containerParams = (CoordinatorLayout.LayoutParams) container.getLayoutParams();
+            containerParams.height -= titlebarParam.height;
+            container.setLayoutParams(containerParams);
         }
     }
 
@@ -121,7 +126,7 @@ public class IndexActivity extends AbstractWeexActivity {
                 return true;
             }
         } else if (id == R.id.action_scan) {
-            if(OtherUtil.isEmulator(this)){
+            if (OtherUtil.isEmulator(this)) {
                 startActivity(new Intent(this, SimulatorDebugActivity.class));
                 return true;
             }
