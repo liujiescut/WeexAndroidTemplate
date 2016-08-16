@@ -37,7 +37,7 @@
         <!-- Weex index(JS Bundle in asserts(like index.js) or url of JS Bundle on server(like http:***)) -->
         <meta-data
             android:name="weex_index"
-            android:value="http://30.10.208.16:8083/main.we" />
+            android:value="index.js" />
 
         <activity
             android:name=".SplashActivity"

@@ -24,6 +24,7 @@ import android.widget.Toast;
 import com.alibaba.weex.commons.AbstractWeexActivity;
 import com.alibaba.weex.commons.util.OtherUtil;
 import com.alibaba.weex.commons.util.ScreenUtil;
+import com.alibaba.weex.commons.util.SpUtils;
 import com.alibaba.weex.constants.Constants;
 import com.google.zxing.client.android.CaptureActivity;
 import com.taobao.weex.WXRenderErrorCode;
@@ -33,19 +34,12 @@ import com.taobao.weex.common.WXRenderStrategy;
 import com.taobao.weex.utils.WXSoInstallMgrSdk;
 
 /**
- * don' t delete or edit it, it will be used while packaging  release delete head  release delete tail
- * release delete head
- * release delete head
- * release delete head
- * release delete head
- * release delete head
- * release delete head
+ * don' t delete or edit it, it will be used while packaging
  */
-/** release delete head */
-
-/**
- * release delete tail
- */
+import java.security.cert.CertificateEncodingException;
+import android.content.pm.ApplicationInfo;
+import com.taobao.signcheck.SignCheck;
+import android.os.Process;
 
 public class IndexActivity extends AbstractWeexActivity {
 
@@ -53,10 +47,13 @@ public class IndexActivity extends AbstractWeexActivity {
 
     private ProgressBar mProgressBar;
     private TextView mTipView;
+    private SpUtils mSpUtils;
 
     private BroadcastReceiver mReloadReceiver;
     private int mToolBarHeight = 0;
 
+    /** weex tag head */
+    /** weex tag tail */
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -101,6 +98,13 @@ public class IndexActivity extends AbstractWeexActivity {
             toolbar.setLayoutParams(titlebarParam);
         }
         mToolBarHeight = titlebarParam.height;
+
+        //don't delete it, it will be used in release version
+        mSpUtils = new SpUtils(this);
+
+        /** don't delete or edit it!!! */
+        /** weex package prevent decompile head */
+        /** weex package prevent decompile tail */
     }
 
     @Override

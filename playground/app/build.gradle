@@ -90,5 +90,4 @@ dependencies {
     /** release delete head */
     compile project(':inspector')
     /** release delete tail */
-
 }
