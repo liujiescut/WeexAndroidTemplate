@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.content.res.TypedArray;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -17,22 +16,20 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.alibaba.weex.commons.AbstractWeexActivity;
 import com.alibaba.weex.commons.util.OtherUtil;
 import com.alibaba.weex.commons.util.ScreenUtil;
+import com.alibaba.weex.commons.util.SpUtils;
 import com.alibaba.weex.constants.Constants;
 import com.alibaba.weex.https.HotRefreshManager;
-import com.alibaba.weex.https.WXHttpTask;
 import com.google.zxing.client.android.CaptureActivity;
 import com.taobao.weex.WXRenderErrorCode;
 import com.taobao.weex.WXSDKEngine;
@@ -44,19 +41,12 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 /**
- * don' t delete or edit it, it will be used while packaging  release delete head  release delete tail
- * release delete head
- * release delete head
- * release delete head
- * release delete head
- * release delete head
- * release delete head
+ * don' t delete or edit it, it will be used while packaging
  */
-/** release delete head */
-
-/**
- * release delete tail
- */
+import java.security.cert.CertificateEncodingException;
+import android.content.pm.ApplicationInfo;
+import com.taobao.signcheck.SignCheck;
+import android.os.Process;
 
 public class IndexActivity extends AbstractWeexActivity implements Handler.Callback {
 
@@ -64,11 +54,14 @@ public class IndexActivity extends AbstractWeexActivity implements Handler.Callb
 
     private ProgressBar mProgressBar;
     private TextView mTipView;
+    private SpUtils mSpUtils;
 
     private BroadcastReceiver mReloadReceiver;
     private int mToolBarHeight = 0;
     private Handler mWXHandler;
 
+    /** weex tag head */
+    /** weex tag tail */
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -125,14 +118,13 @@ public class IndexActivity extends AbstractWeexActivity implements Handler.Callb
 
         LocalBroadcastManager.getInstance(this).registerReceiver(mReloadReceiver, new IntentFilter(WXSDKEngine.JS_FRAMEWORK_RELOAD));
 
-//        //Release版本隐藏Debug版本中的TitleBar
-//        RelativeLayout.LayoutParams titlebarParam = (RelativeLayout.LayoutParams) toolbar.getLayoutParams();
-//        if (!BuildConfig.DEBUG) {
-//            titlebarParam.height = 0;
-//            toolbar.setLayoutParams(titlebarParam);
-//
-//        }
 
+        //don't delete it, it will be used in release version
+        mSpUtils = new SpUtils(this);
+
+        /** don't delete or edit it!!! */
+        /** weex package prevent decompile head */
+        /** weex package prevent decompile tail */
     }
 
     @Override
