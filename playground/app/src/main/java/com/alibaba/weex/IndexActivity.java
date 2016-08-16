@@ -141,7 +141,8 @@ public class IndexActivity extends AbstractWeexActivity implements Handler.Callb
         try {
             String host = new URL(Constants.WeexIndex.getWeexIndex().toString()).getHost();
             String wsUrl = "ws://" + host + ":8082";
-            mWXHandler.obtainMessage(Constants.HOT_REFRESH_CONNECT, 0, 0, wsUrl).sendToTarget();
+            Message message = mWXHandler.obtainMessage(Constants.HOT_REFRESH_CONNECT, 0, 0, wsUrl);
+            mWXHandler.sendMessageDelayed(message,2500);
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }
