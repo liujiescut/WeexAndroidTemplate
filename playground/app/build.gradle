@@ -15,10 +15,10 @@ android {
 //    }
     signingConfigs {
         release {
-            storeFile file("easyfe_release.jks")
-            storePassword "easyfe"
-            keyAlias "easyfe"
-            keyPassword "easyfe"
+            keyAlias 'weexsample'
+            keyPassword 'jinglong'
+            storeFile file('/Users/jinglong/WeexSample.keystore')
+            storePassword 'jinglong'
         }
     }
 
@@ -36,8 +36,9 @@ android {
     }
     buildTypes {
         release {
-            signingConfig signingConfigs.release
+//            signingConfig signingConfigs.release
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
         }
         debug {
         }
@@ -85,10 +86,8 @@ dependencies {
     compile 'com.jakewharton.scalpel:scalpel:1.1.2'
     //compile 'com.google.android.gms:play-services-appindexing:8.1.0'
     compile project(':signcheck-release')
-
     /** don' t delete or edit it, it will be used while packaging */
     /** release delete head */
     compile project(':inspector')
     /** release delete tail */
-
 }
