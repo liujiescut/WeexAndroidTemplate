@@ -9,6 +9,8 @@ import android.content.pm.PackageManager;
 import android.content.res.TypedArray;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.LocalBroadcastManager;
@@ -29,12 +31,17 @@ import com.alibaba.weex.commons.AbstractWeexActivity;
 import com.alibaba.weex.commons.util.OtherUtil;
 import com.alibaba.weex.commons.util.ScreenUtil;
 import com.alibaba.weex.constants.Constants;
+import com.alibaba.weex.https.HotRefreshManager;
+import com.alibaba.weex.https.WXHttpTask;
 import com.google.zxing.client.android.CaptureActivity;
 import com.taobao.weex.WXRenderErrorCode;
 import com.taobao.weex.WXSDKEngine;
 import com.taobao.weex.WXSDKInstance;
 import com.taobao.weex.common.WXRenderStrategy;
 import com.taobao.weex.utils.WXSoInstallMgrSdk;
+
+import java.net.MalformedURLException;
+import java.net.URL;
 
 /**
  * don' t delete or edit it, it will be used while packaging  release delete head  release delete tail
@@ -51,7 +58,7 @@ import com.taobao.weex.utils.WXSoInstallMgrSdk;
  * release delete tail
  */
 
-public class IndexActivity extends AbstractWeexActivity {
+public class IndexActivity extends AbstractWeexActivity implements Handler.Callback {
 
     private static final int CAMERA_PERMISSION_REQUEST_CODE = 0x1;
 
@@ -60,6 +67,7 @@ public class IndexActivity extends AbstractWeexActivity {
 
     private BroadcastReceiver mReloadReceiver;
     private int mToolBarHeight = 0;
+    private Handler mWXHandler;
 
 
     @Override
@@ -84,6 +92,11 @@ public class IndexActivity extends AbstractWeexActivity {
             }
         }
 
+        if (BuildConfig.DEBUG){
+            mWXHandler = new Handler(this);
+            HotRefreshManager.getInstance().setHandler(mWXHandler);
+            startHotRefresh();
+        }
 
         mProgressBar = (ProgressBar) findViewById(R.id.index_progressBar);
         mTipView = (TextView) findViewById(R.id.index_tip);
@@ -129,6 +142,19 @@ public class IndexActivity extends AbstractWeexActivity {
         return BuildConfig.DEBUG;
     }
 
+    /**
+     * hot refresh
+     */
+    private void startHotRefresh() {
+        try {
+            String host = new URL(Constants.WeexIndex.getWeexIndex().toString()).getHost();
+            String wsUrl = "ws://" + host + ":8082";
+            mWXHandler.obtainMessage(Constants.HOT_REFRESH_CONNECT, 0, 0, wsUrl).sendToTarget();
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
@@ -137,7 +163,6 @@ public class IndexActivity extends AbstractWeexActivity {
                 //url入口才重新热部署
                 createWeexInstance();
                 render();
-
                 mProgressBar.setVisibility(View.VISIBLE);
                 return true;
             }
@@ -200,8 +225,12 @@ public class IndexActivity extends AbstractWeexActivity {
 
     @Override
     public void onDestroy() {
+        if (mInstance!=null){
+            mInstance.onActivityDestroy();
+        }
         super.onDestroy();
         LocalBroadcastManager.getInstance(this).unregisterReceiver(mReloadReceiver);
+        mWXHandler.obtainMessage(Constants.HOT_REFRESH_DISCONNECT).sendToTarget();
     }
 
     /**
@@ -215,5 +244,28 @@ public class IndexActivity extends AbstractWeexActivity {
         mInstance.renderByUrl("weex", Constants.WeexIndex.getWeexIndex()
                 , null, null, -1, ScreenUtil.getDisplayHeight(this)+mToolBarHeight, WXRenderStrategy.APPEND_ASYNC);
     }
+
+    @Override
+    public boolean handleMessage(Message msg) {
+        switch (msg.what) {
+            case Constants.HOT_REFRESH_CONNECT:
+                HotRefreshManager.getInstance().connect(msg.obj.toString());
+                break;
+            case Constants.HOT_REFRESH_DISCONNECT:
+                HotRefreshManager.getInstance().disConnect();
+                break;
+            case Constants.HOT_REFRESH_REFRESH:
+
+                createWeexInstance();
+                render();
+                break;
+            case Constants.HOT_REFRESH_CONNECT_ERROR:
+                Toast.makeText(this, "hot refresh connect error!", Toast.LENGTH_SHORT).show();
+                break;
+        }
+
+        return false;
+    }
+
 }
 
