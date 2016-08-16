@@ -194,7 +194,7 @@ public class IndexActivity extends AbstractWeexActivity {
         }
 
         mInstance.renderByUrl("weex", Constants.WeexIndex.getWeexIndex()
-                , null, null, -1, ScreenUtil.getDisplayHeight(this) - mToolBarHeight, WXRenderStrategy.APPEND_ASYNC);
+                , null, null, -1, ScreenUtil.getDisplayHeight(this), WXRenderStrategy.APPEND_ASYNC);
     }
 }
 
