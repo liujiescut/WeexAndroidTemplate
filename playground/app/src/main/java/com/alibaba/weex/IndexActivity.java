@@ -6,12 +6,16 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
+import android.content.res.TypedArray;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.LocalBroadcastManager;
+import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -63,9 +67,23 @@ public class IndexActivity extends AbstractWeexActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_index);
         setContainer((ViewGroup) findViewById(R.id.index_container));
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle("WEEX");
         setSupportActionBar(toolbar);
+        if (!BuildConfig.DEBUG) {
+            ActionBar supportActionBar = getSupportActionBar();
+            if (supportActionBar != null) {
+                supportActionBar.hide();
+
+                mToolBarHeight = supportActionBar.getHeight();
+                if (mToolBarHeight == 0) {
+                    TypedArray actionbarSizeTypedArray = obtainStyledAttributes(new int[]{android.R.attr.actionBarSize});
+                    mToolBarHeight = (int) actionbarSizeTypedArray.getDimension(0, 0);
+                }
+            }
+        }
+
 
         mProgressBar = (ProgressBar) findViewById(R.id.index_progressBar);
         mTipView = (TextView) findViewById(R.id.index_tip);
@@ -94,13 +112,14 @@ public class IndexActivity extends AbstractWeexActivity {
 
         LocalBroadcastManager.getInstance(this).registerReceiver(mReloadReceiver, new IntentFilter(WXSDKEngine.JS_FRAMEWORK_RELOAD));
 
-        //Release版本隐藏Debug版本中的TitleBar
-        RelativeLayout.LayoutParams titlebarParam = (RelativeLayout.LayoutParams) toolbar.getLayoutParams();
-        if (!BuildConfig.DEBUG) {
-            titlebarParam.height = 0;
-            toolbar.setLayoutParams(titlebarParam);
-        }
-        mToolBarHeight = titlebarParam.height;
+//        //Release版本隐藏Debug版本中的TitleBar
+//        RelativeLayout.LayoutParams titlebarParam = (RelativeLayout.LayoutParams) toolbar.getLayoutParams();
+//        if (!BuildConfig.DEBUG) {
+//            titlebarParam.height = 0;
+//            toolbar.setLayoutParams(titlebarParam);
+//
+//        }
+
     }
 
     @Override
@@ -194,7 +213,7 @@ public class IndexActivity extends AbstractWeexActivity {
         }
 
         mInstance.renderByUrl("weex", Constants.WeexIndex.getWeexIndex()
-                , null, null, -1, ScreenUtil.getDisplayHeight(this), WXRenderStrategy.APPEND_ASYNC);
+                , null, null, -1, ScreenUtil.getDisplayHeight(this)+mToolBarHeight, WXRenderStrategy.APPEND_ASYNC);
     }
 }
 
