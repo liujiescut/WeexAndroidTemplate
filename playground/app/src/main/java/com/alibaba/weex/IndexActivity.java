@@ -227,7 +227,9 @@ public class IndexActivity extends AbstractWeexActivity implements Handler.Callb
         }
         super.onDestroy();
         LocalBroadcastManager.getInstance(this).unregisterReceiver(mReloadReceiver);
-        mWXHandler.obtainMessage(Constants.HOT_REFRESH_DISCONNECT).sendToTarget();
+        if (mWXHandler!=null) {
+            mWXHandler.obtainMessage(Constants.HOT_REFRESH_DISCONNECT).sendToTarget();
+        }
     }
 
     /**
