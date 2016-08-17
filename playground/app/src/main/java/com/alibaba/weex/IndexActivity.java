@@ -222,9 +222,6 @@ public class IndexActivity extends AbstractWeexActivity implements Handler.Callb
 
     @Override
     public void onDestroy() {
-        if (mInstance!=null){
-            mInstance.onActivityDestroy();
-        }
         super.onDestroy();
         LocalBroadcastManager.getInstance(this).unregisterReceiver(mReloadReceiver);
         if (mWXHandler!=null) {
