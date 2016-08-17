@@ -37,6 +37,7 @@ import com.taobao.weex.WXSDKInstance;
 import com.taobao.weex.common.WXRenderStrategy;
 import com.taobao.weex.utils.WXSoInstallMgrSdk;
 
+import java.lang.ref.WeakReference;
 import java.net.MalformedURLException;
 import java.net.URL;
 
@@ -103,8 +104,11 @@ public class IndexActivity extends AbstractWeexActivity implements Handler.Callb
             return;
         }
 
-        render();
-
+        if (BuildConfig.DEBUG){
+            mWXHandler.postDelayed(new DebugDelayRenderTask(this),3000);
+        }else {
+            render();
+        }
 
         mReloadReceiver = new BroadcastReceiver() {
             @Override
@@ -142,7 +146,7 @@ public class IndexActivity extends AbstractWeexActivity implements Handler.Callb
             String host = new URL(Constants.WeexIndex.getWeexIndex().toString()).getHost();
             String wsUrl = "ws://" + host + ":8082";
             Message message = mWXHandler.obtainMessage(Constants.HOT_REFRESH_CONNECT, 0, 0, wsUrl);
-            mWXHandler.sendMessageDelayed(message,2500);
+            mWXHandler.sendMessageDelayed(message,6000);
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }
@@ -260,5 +264,21 @@ public class IndexActivity extends AbstractWeexActivity implements Handler.Callb
         return false;
     }
 
+    public static class DebugDelayRenderTask implements Runnable{
+
+        private WeakReference<IndexActivity> weakIndexAct;
+
+        public DebugDelayRenderTask(IndexActivity weakIndexAct) {
+            this.weakIndexAct = new WeakReference<IndexActivity>(weakIndexAct);
+        }
+
+        @Override
+        public void run() {
+            IndexActivity indexActivity = weakIndexAct.get();
+            if (indexActivity!=null) {
+                indexActivity.render();
+            }
+        }
+    }
 }
 
